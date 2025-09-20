@@ -1,0 +1,26 @@
+{
+    "name": "social-network/app",
+    "description": "A PHP-based social network application",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mbstring": "*",
+        "ext-gd": "*"
+    },
+    "require-dev": {},
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"if (!file_exists('uploads/profiles')) { mkdir('uploads/profiles', 0777, true); }\"",
+            "php -r \"if (!file_exists('uploads/posts')) { mkdir('uploads/posts', 0777, true); }\""
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "prefer-stable": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

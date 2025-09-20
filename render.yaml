@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: social-network
+    env: php
+    buildCommand: composer install
+    startCommand: php -S 0.0.0.0:$PORT
+    envVars:
+      - key: PHP_VERSION
+        value: 8.1
+      - key: DB_HOST
+        fromDatabase:
+          name: social-network-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: social-network-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: social-network-db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: social-network-db
+          property: password
+    healthCheckPath: /index.php
+
+  - type: pserv
+    name: social-network-db
+    env: postgresql
+    plan: free
