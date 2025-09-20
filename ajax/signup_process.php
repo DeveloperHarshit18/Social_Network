@@ -147,7 +147,7 @@ if ($user->create()) {
     echo json_encode([
         'success' => true, 
         'message' => 'Account created successfully!',
-        'redirect' => 'index.php'
+        'redirect' => 'main.php'
     ]);
 } else {
     echo json_encode([

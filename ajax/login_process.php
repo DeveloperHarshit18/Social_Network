@@ -39,7 +39,7 @@ if ($user->login($email, $password)) {
     echo json_encode([
         'success' => true, 
         'message' => 'Login successful!',
-        'redirect' => 'index.php'
+        'redirect' => 'main.php'
     ]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
