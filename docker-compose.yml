@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: social_network_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: social_network
+      MYSQL_USER: social_user
+      MYSQL_PASSWORD: social_password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - social_network
+
+  # PHP Application
+  web:
+    build: .
+    container_name: social_network_web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./uploads:/var/www/html/uploads
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=social_network
+      - DB_USER=social_user
+      - DB_PASS=social_password
+    networks:
+      - social_network
+
+  # phpMyAdmin (Optional - for database management)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: social_network_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: social_user
+      PMA_PASSWORD: social_password
+    depends_on:
+      - db
+    networks:
+      - social_network
+
+volumes:
+  db_data:
+
+networks:
+  social_network:
+    driver: bridge

@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: social_network_db_prod
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data_prod:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - social_network_prod
+    # Remove port exposure for security in production
+    # ports:
+    #   - "3306:3306"
+
+  # PHP Application
+  web:
+    build: .
+    container_name: social_network_web_prod
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./uploads:/var/www/html/uploads
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASS=${MYSQL_PASSWORD}
+    networks:
+      - social_network_prod
+
+volumes:
+  db_data_prod:
+
+networks:
+  social_network_prod:
+    driver: bridge

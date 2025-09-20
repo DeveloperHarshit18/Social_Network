@@ -1,6 +1,11 @@
 # Database credentials and sensitive files
 config.php
 .env
+.env.local
+.env.production
+
+# Docker volumes
+docker-data/
 
 # Uploaded files (optional - you might want to keep these)
 uploads/profiles/*

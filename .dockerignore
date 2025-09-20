@@ -1,0 +1,47 @@
+# Git files
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Log files
+*.log
+error.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test files
+test_*.php
+setup_database.php
+
+# Node modules (if any)
+node_modules/
+
+# Composer files (if any)
+vendor/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Uploaded files (will be mounted as volume)
+uploads/profiles/*
+uploads/posts/*
+!uploads/profiles/.gitkeep
+!uploads/posts/.gitkeep
