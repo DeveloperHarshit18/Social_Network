@@ -1,0 +1,42 @@
+# Database credentials and sensitive files
+config.php
+.env
+
+# Uploaded files (optional - you might want to keep these)
+uploads/profiles/*
+uploads/posts/*
+!uploads/profiles/.gitkeep
+!uploads/posts/.gitkeep
+
+# Log files
+*.log
+error.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test files (optional)
+test_*.php
+setup_database.php
+
+# Node modules (if you add any)
+node_modules/
+
+# Composer files (if you add any)
+vendor/
