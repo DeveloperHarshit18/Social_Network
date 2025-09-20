@@ -1,4 +1,8 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 header('Content-Type: application/json');
 
@@ -136,23 +140,32 @@ $user->last_name = $last_name;
 $user->bio = ''; // Initialize bio as empty string
 $user->profile_picture = $profile_picture;
 
-if ($user->create()) {
-    // Set session
-    $_SESSION['user_id'] = $user->id;
-    $_SESSION['username'] = $user->username;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['first_name'] = $user->first_name;
-    $_SESSION['last_name'] = $user->last_name;
-    
-    echo json_encode([
-        'success' => true, 
-        'message' => 'Account created successfully!',
-        'redirect' => 'main.php'
-    ]);
-} else {
+try {
+    if ($user->create()) {
+        // Set session
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['username'] = $user->username;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['first_name'] = $user->first_name;
+        $_SESSION['last_name'] = $user->last_name;
+        
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Account created successfully!',
+            'redirect' => 'main.php'
+        ]);
+    } else {
+        // Get more specific error information
+        $error_info = $user->conn ? $user->conn->errorInfo() : ['Unknown error'];
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Failed to create account. Error: ' . $error_info[2]
+        ]);
+    }
+} catch (Exception $e) {
     echo json_encode([
         'success' => false, 
-        'message' => 'Failed to create account. Please try again.'
+        'message' => 'Exception occurred: ' . $e->getMessage()
     ]);
 }
 ?>
